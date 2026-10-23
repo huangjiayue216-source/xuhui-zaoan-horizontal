@@ -83,8 +83,8 @@ window.App = window.App || {};
           vertical: false, parens: false, nowrap: true
         },
         {
-          id: 't-caption', kind: 'text', name: '标题文字', text: '香“疯”了!每天一万多人来徐汇人气公园，本地居民还有一个私藏赏桂地。',
-          x: 86, y: 2087, w: 1600, h: 186, rotation: 0, opacity: 1, visible: true,
+          id: 't-caption', kind: 'text', name: '标题文字', text: '香“疯”了!每天一万多人来徐汇人气公园，本地居民\n还有一个私藏赏桂地。',
+          x: 90, y: 2087, w: 1784, h: 186, rotation: 0, opacity: 1, visible: true,
           fontFamily: 'XHSerif', fontSize: 67, fontWeight: 700, italic: false,
           color: '#1b1b1b', align: 'left', lineHeight: 1.39, letterSpacing: 0,
           vertical: false, parens: false
