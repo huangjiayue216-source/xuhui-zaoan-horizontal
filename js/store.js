@@ -142,13 +142,20 @@ window.App = window.App || {};
     }
     project.templateVersion = A.TEMPLATE_VERSION;
 
-    /* 版式版本：日历区域 5 段文字自动对齐到当前设计（只调位置/字号，保留文字内容），只做一次 */
-    if (project.layoutVersion !== A.LAYOUT_VERSION) {
+    /* 日历区域 5 段文字以设计稿为准：位置/字号一旦偏离就自动纠正（保留文字内容） */
+    {
       const defs = A.defaultProject();
       ['t-month', 't-date', 't-weekday', 't-lunar-year', 't-lunar-month'].forEach(function (id) {
         const t = (project.texts || []).find(function (x) { return x.id === id; });
         const d = defs.texts.find(function (x) { return x.id === id; });
         if (!t || !d) return;
+        const bad = Math.abs((t.x || 0) - d.x) > 6 ||
+          Math.abs((t.y || 0) - d.y) > 6 ||
+          Math.abs((t.w || 0) - d.w) > 8 ||
+          Math.abs((t.fontSize || 0) - d.fontSize) > 3 ||
+          (t.align || '') !== d.align ||
+          (!!t.vertical) !== (!!d.vertical);
+        if (!bad) return;
         ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'align', 'vertical', 'parens',
           'nowrap', 'oneCol', 'rotation', 'letterSpacing', 'fontFamily', 'fontWeight'
         ].forEach(function (k) {
