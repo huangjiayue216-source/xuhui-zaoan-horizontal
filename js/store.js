@@ -120,6 +120,10 @@ window.App = window.App || {};
   function migrate(project) {
     if (!project) return project;
 
+    // 画布尺寸始终与当前设计一致（旧存档/导入项目也会被纠正）
+    project.width = A.DESIGN.w;
+    project.height = A.DESIGN.h;
+
     /* 底图（模板）换版本时：默认底图与照片区跟着更新。
        注意：这里只改「背景模板」，用户上传的照片、照片位置和文字都不动。*/
     const tpl = project.template;
@@ -315,8 +319,20 @@ window.App = window.App || {};
           adopt();
           return;
         }
+        // 网络慢/抖动：自动重试几次
+        if (!/^data:/.test(src) && (entry.attempts || 0) < 3) {
+          entry.attempts = (entry.attempts || 0) + 1;
+          entry.failed = true;
+          A.emit('image', src);
+          setTimeout(function () {
+            entry.failed = false;
+            img.src = src + (src.indexOf('?') >= 0 ? '&' : '?') + 'r=' + entry.attempts;
+          }, 800 * entry.attempts);
+          return;
+        }
         entry.failed = true;
         A.emit('image', src);
+        A.toast && A.toast('有图片加载失败（可能是网络较慢），稍后刷新页面再试', 'err');
       };
       img.src = src;
     }
