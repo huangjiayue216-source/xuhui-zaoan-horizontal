@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>徐汇你早 · 横版编辑器</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<span class="font-preload" aria-hidden="true">预</span>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">徐</span>
+    <div class="brand-txt">
+      <strong>徐汇你早 · 横版</strong>
+      <span id="docName">未命名项目</span>
+    </div>
+  </div>
+  <div class="top-right">
+    <span class="pill" id="saveState">正在连接…</span>
+  </div>
+</header>
+
+<main>
+  <aside class="sidebar">
+
+    <!-- ============ 1. 日期 ============ -->
+    <section class="panel">
+      <div class="panel-head"><h3>日期</h3><span class="hint">左上角紫色框里的字</span></div>
+      <div class="props">
+        <label class="field"><span>月份</span><input type="text" id="f-month" placeholder="十月"></label>
+        <label class="field"><span>日期</span><input type="text" id="f-date" placeholder="12"></label>
+        <label class="field"><span>星期</span><input type="text" id="f-week" placeholder="周一"></label>
+        <label class="field"><span>农历年</span><input type="text" id="f-lunar-year" placeholder="丙午马年"></label>
+        <label class="field"><span>农历</span><input type="text" id="f-lunar-month" placeholder="九月初三"></label>
+        <div class="divider"></div>
+        <label class="field"><span>选日期</span><input type="date" id="dateHelper"></label>
+        <div class="row">
+          <button class="btn" id="btnToday">用今天</button>
+          <button class="btn" id="btnFillDate">自动填公历</button>
+        </div>
+        <p class="tip">「用今天 / 自动填公历」会同时填好公历和农历（含闰月）。</p>
+      </div>
+    </section>
+
+    <!-- ============ 2. 图片 ============ -->
+    <section class="panel">
+      <div class="panel-head"><h3>图片</h3><span class="hint">点上传即可替换</span></div>
+      <div class="props">
+        <p class="sub">中间空白处的照片</p>
+        <button class="btn primary wide" id="btnPhotoUpload">上传 / 替换照片</button>
+        <div class="row">
+          <button class="btn danger" id="btnPhotoDelete">删除照片</button>
+          <button class="btn" id="btnPhotoCenter">铺满照片区</button>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="btnUndo">撤销 ↶</button>
+          <button class="btn" id="btnRedo">重做 ↷</button>
+        </div>
+
+        <div class="divider"></div>
+        <p class="sub">整张模板（背景和版式）</p>
+        <button class="btn wide" id="btnTemplateUpload">替换模板</button>
+        <div class="row">
+          <button class="btn" id="btnTemplateReset">恢复默认</button>
+          <button class="btn danger" id="btnTemplateDelete">删除模板</button>
+        </div>
+
+        <p class="tip">照片和模板都能在画面里直接调：拖动移动、四角缩放、圆点旋转。</p>
+      </div>
+    </section>
+
+    <!-- ============ 3. 配文 ============ -->
+    <section class="panel">
+      <div class="panel-head"><h3>配文</h3><span class="hint">照片下方的文字</span></div>
+      <div class="props">
+        <textarea id="captionText" placeholder="在这里写标题文字，回车可换行"></textarea>
+        <label class="field"><span>字号</span><input type="number" id="captionSize" min="12" max="200" step="1"></label>
+        <div class="row">
+          <button class="btn" id="captionCopy">复制文字</button>
+          <button class="btn" id="captionPaste">粘贴文字</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="sidebar-foot">
+      <button class="btn primary big wide" id="btnExportPng">导出图片</button>
+    </div>
+
+  </aside>
+
+  <section class="stage-wrap">
+    <div class="stage-toolbar">
+      <button class="mini" id="btnZoomOut" title="缩小">－</button>
+      <span id="zoomLabel">100%</span>
+      <button class="mini" id="btnZoomIn" title="放大">＋</button>
+      <button class="mini wide" id="btnZoomFit" title="适应窗口">适应窗口</button>
+    </div>
+    <div class="stage" id="stage">
+      <canvas id="board" width="1970" height="2773"></canvas>
+    </div>
+  </section>
+</main>
+
+<div class="toasts" id="toasts"></div>
+<input type="file" id="fileImage" accept="image/*" hidden>
+<input type="file" id="fileTemplate" accept="image/*" hidden>
+
+<script src="js/store.js"></script>
+<script src="js/render.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
