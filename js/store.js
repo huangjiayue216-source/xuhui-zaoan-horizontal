@@ -9,6 +9,7 @@ window.App = window.App || {};
   A.TEMPLATE_VERSION = 1;
   A.TEMPLATE_SRC = 'assets/template.png';
   A.FRAME_DEFAULT = { x: 90, y: 852, w: 1784, h: 1190 };
+  A.LAYOUT_VERSION = 2;
 
   let seed = 0;
   A.uid = function (prefix) {
@@ -140,6 +141,22 @@ window.App = window.App || {};
       }
     }
     project.templateVersion = A.TEMPLATE_VERSION;
+
+    /* 版式版本：日历区域 5 段文字自动对齐到当前设计（只调位置/字号，保留文字内容），只做一次 */
+    if (project.layoutVersion !== A.LAYOUT_VERSION) {
+      const defs = A.defaultProject();
+      ['t-month', 't-date', 't-weekday', 't-lunar-year', 't-lunar-month'].forEach(function (id) {
+        const t = (project.texts || []).find(function (x) { return x.id === id; });
+        const d = defs.texts.find(function (x) { return x.id === id; });
+        if (!t || !d) return;
+        ['x', 'y', 'w', 'h', 'fontSize', 'lineHeight', 'align', 'vertical', 'parens',
+          'nowrap', 'oneCol', 'rotation', 'letterSpacing', 'fontFamily', 'fontWeight'
+        ].forEach(function (k) {
+          if (d[k] !== undefined) t[k] = d[k];
+        });
+      });
+      project.layoutVersion = A.LAYOUT_VERSION;
+    }
 
     // 产品改名：旧存档里的项目名同步为「徐汇你早」
     if (project.name === '早安徐汇' || project.name === '你好徐汇' || !project.name) project.name = '徐汇你早';
