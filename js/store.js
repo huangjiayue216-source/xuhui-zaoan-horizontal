@@ -156,7 +156,9 @@ window.App = window.App || {};
       wk.parens = true;
       wk.oneCol = true;
       // 横版「周几」：固定为原版尺寸（在数字左侧、与数字等高），一次性修正旧项目
-      if (!project.fixWeekdayH) {
+      // 若仍停在竖版旧坐标（206/326/44px），无论标记如何都自动纠正一次
+      const legacyWk = Math.abs(wk.x - 206) < 2 && Math.abs(wk.y - 326) < 2 && Math.abs(wk.fontSize - 44) < 1;
+      if (!project.fixWeekdayH || legacyWk) {
         wk.x = 330;
         wk.y = 436;
         wk.w = 74;
