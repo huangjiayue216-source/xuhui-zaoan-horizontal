@@ -149,7 +149,7 @@ window.App = window.App || {};
     /* 日历区域 5 段文字以设计稿为准：位置/字号一旦偏离就自动纠正（保留文字内容） */
     {
       const defs = A.defaultProject();
-      ['t-month', 't-date', 't-weekday', 't-lunar-year', 't-lunar-month'].forEach(function (id) {
+      ['t-month', 't-date', 't-weekday', 't-lunar-year', 't-lunar-month', 't-caption'].forEach(function (id) {
         const t = (project.texts || []).find(function (x) { return x.id === id; });
         const d = defs.texts.find(function (x) { return x.id === id; });
         if (!t || !d) return;
